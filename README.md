@@ -72,6 +72,18 @@ if nmiss(dthdt, rfstdt)=0 then dthdy=(dthd-rfstdt)+1;
 format rfstdt rfendt rficdt brthdt dthdt rfpendt date9.;
 run;
 
+/*Variables derived from Exposure*/
+Data ex1;
+set ex (where=(excat="Study Medication" and exscat=" ");
+if exsdtc ne ' ' then
+trtsdt=min(datepart(input(exstdtc, anydtdm.)));
+if exendtc ne ' ' then
+trtedt=max(datepart(input(exendtc, anydtdm.)));
+
+if nmiss(trtsdt, trtedt)=0 then trtdur= (trtsdt-trtedt)+1;
+
+
+
 
 
 
