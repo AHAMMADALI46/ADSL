@@ -24,7 +24,7 @@ Proc sort data=sdtm.ex out=ex; by usubjid; run;
 Proc sort data=sdtm. out=dm; by usubjid; run;
 
 data dm1 (keep=studyid domain usubjid subjid siteid age ageu race dthdtc dthfl  arm armcd ethnic dmdtc dmdy rfstdtc rfendtc actarm actarmcd rfpendtc sexn racen trtp trtpn trta trtan ethnicn dthdy agegrp agegrpn rfstdt rfendt rficdt brthdt dthdt rfpendt);
-set dm;
+set dm (drop=domain);
 domain="ADSL";
 if sex="M" then sexn=1;
 else sexn=0;
@@ -41,13 +41,13 @@ if actarmcd="DEX" then trtan=1;
 else trtan=.;
 
 if ethnic="Hispanic or Lation" Then ethnicn=1;
-else ethnic="Not hispanic or Latino" then ethnicn=2;
-else ethnic="Unknown" then ethnicn=3;
+else if ethnic="Not hispanic or Latino" then ethnicn=2;
+else if ethnic="Unknown" then ethnicn=3;
 
 if age<50 then do; 
 agegr="<50 years";
 agegrpn=1; end;
-else if age between 50 and 65 then do;
+else if age >= 50 and age <=65 then do;
 agegrp="50 to 65 years";
 agegrpn=2; end;
 else if age>65 then do;
