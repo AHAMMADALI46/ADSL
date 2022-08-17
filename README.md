@@ -73,14 +73,26 @@ format rfstdt rfendt rficdt brthdt dthdt rfpendt date9.;
 run;
 
 /*Variables derived from Exposure*/
-Data ex1;
+Data ex1 (keep=usubjid trtsdt trtstm trtsdtm trtedt trtedtm trtetm trtdur saffl);
 set ex (where=(excat="Study Medication" and exscat=" ");
-if exsdtc ne ' ' then
+if exsdtc ne ' ' then do;
 trtsdt=min(datepart(input(exstdtc, anydtdm.)));
-if exendtc ne ' ' then
+trtstm=timepart(input(exstdtc, anydtdtm.));
+trsdtm=input(exstdtc, anydtdtm.);
+end;
+
+if exendtc ne ' ' then do;
 trtedt=max(datepart(input(exendtc, anydtdm.)));
+trtetm=timepart(input(exendtc, anydtdtm.));
+trsdtm=input(exendtc, anydtdtm.);
+end;
 
 if nmiss(trtsdt, trtedt)=0 then trtdur= (trtsdt-trtedt)+1;
+
+if trtsdt ne . then safl="Y";
+else saffl="N";
+run;
+
 
 
 
