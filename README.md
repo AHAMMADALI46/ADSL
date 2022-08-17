@@ -76,7 +76,7 @@ run;
 Data ex1 (keep=usubjid trtsdt trtstm trtsdtm trtedt trtedtm trtetm trtdur saffl);
 set ex (where=(excat="Study Medication" and exscat=" ");
 if exsdtc ne ' ' then do;
-trtsdt=min(datepart(input(exstdtc, anydtdm.)));
+trtsdt=datepart(input(exstdtc, anydtdm.));
 trtstm=timepart(input(exstdtc, anydtdtm.));
 trsdtm=input(exstdtc, anydtdtm.);
 end;
@@ -86,7 +86,7 @@ trtedt=max(datepart(input(exendtc, anydtdm.)));
 trtetm=timepart(input(exendtc, anydtdtm.));
 trsdtm=input(exendtc, anydtdtm.);
 end;
-
+format trtsdt trtedt date9. trtsdtm trtedm datetime18. trtstm trtetm time8.;
 if nmiss(trtsdt, trtedt)=0 then trtdur= (trtsdt-trtedt)+1;
 
 if trtsdt ne . then safl="Y";
